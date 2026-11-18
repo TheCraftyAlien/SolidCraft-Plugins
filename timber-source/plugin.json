@@ -1,0 +1,333 @@
+{
+  "id": "timber",
+  "name": "Timber",
+  "version": "0.1.1",
+  "description": "Standard timber sections (4x2, 3x2, 2x2, CLS, joists, posts, battens) at any length, placed on the origin or parallel or at 90 degrees to a selected timber.",
+  "capabilities": [
+    "commands@0.1"
+  ],
+  "runtime": {
+    "module": "timber.wasm",
+    "entries": [
+      {
+        "name": "timber",
+        "effect": "edit",
+        "slots": [
+          {
+            "kind": "menu",
+            "name": "Timber"
+          },
+          {
+            "kind": "ribbon",
+            "name": "Timber"
+          }
+        ],
+        "input_schema": {
+          "type": "object",
+          "required": [
+            "size",
+            "inches",
+            "length",
+            "place",
+            "at",
+            "along",
+            "count",
+            "spacing",
+            "direction",
+            "lie",
+            "custom_thickness",
+            "custom_width",
+            "material",
+            "name"
+          ],
+          "properties": {
+            "size": {
+              "type": "string",
+              "title": "Size",
+              "description": "Actual section in mm, thickness x width.",
+              "default": "4x2",
+              "oneOf": [
+                {
+                  "const": "4x2",
+                  "title": "4x2 sawn (47 x 100)",
+                  "description": "Regularised C16/C24, the common framing size."
+                },
+                {
+                  "const": "4x2-cls",
+                  "title": "4x2 CLS (38 x 89)",
+                  "description": "Planed, rounded edges: stud walls."
+                },
+                {
+                  "const": "3x2",
+                  "title": "3x2 sawn (47 x 75)"
+                },
+                {
+                  "const": "3x2-cls",
+                  "title": "3x2 CLS (38 x 63)",
+                  "description": "Planed, rounded edges: light stud walls."
+                },
+                {
+                  "const": "2x2",
+                  "title": "2x2 sawn (47 x 50)"
+                },
+                {
+                  "const": "2x2-par",
+                  "title": "2x2 planed (44 x 44)",
+                  "description": "Planed all round."
+                },
+                {
+                  "const": "6x2",
+                  "title": "6x2 joist (47 x 150)"
+                },
+                {
+                  "const": "8x2",
+                  "title": "8x2 joist (47 x 200)"
+                },
+                {
+                  "const": "3x3",
+                  "title": "3x3 post (75 x 75)"
+                },
+                {
+                  "const": "4x4",
+                  "title": "4x4 post (100 x 100)"
+                },
+                {
+                  "const": "batten-50",
+                  "title": "Batten (25 x 50)",
+                  "description": "Roof and cladding batten."
+                },
+                {
+                  "const": "batten-38",
+                  "title": "Batten (25 x 38)"
+                },
+                {
+                  "const": "custom",
+                  "title": "Custom",
+                  "description": "Thickness and width from the two Custom fields."
+                }
+              ]
+            },
+            "inches": {
+              "type": "boolean",
+              "title": "Inches",
+              "description": "Plain numbers below are inches instead of mm, and the run's parameters are in inches. A value with its own unit is converted: 2400 mm, 2.4 m, 8', 96\", 8' 6\", 1 1/2\".",
+              "default": false
+            },
+            "length": {
+              "type": "string",
+              "title": "Length",
+              "description": "A plain number is mm, or inches with Inches ticked. A value with its own unit is converted: 2400 mm, 2.4 m, 8', 96\", 8' 6\", 1 1/2\". 0 or empty: as long as the selected timber.",
+              "default": "2400 mm",
+              "maxLength": 40
+            },
+            "place": {
+              "type": "string",
+              "title": "Place",
+              "description": "Parallel and At 90 degrees go against the timber you selected: click it before opening this.",
+              "default": "origin",
+              "oneOf": [
+                {
+                  "const": "origin",
+                  "title": "At the origin",
+                  "description": "Its corner on 0, 0, 0, running along Direction."
+                },
+                {
+                  "const": "parallel",
+                  "title": "Parallel to selected",
+                  "description": "Runs the same way as the selected timber."
+                },
+                {
+                  "const": "square",
+                  "title": "At 90 degrees to selected",
+                  "description": "Runs square to the selected timber."
+                }
+              ]
+            },
+            "at": {
+              "type": "string",
+              "title": "Where",
+              "description": "Where against the selected timber.",
+              "default": "side",
+              "oneOf": [
+                {
+                  "const": "side",
+                  "title": "Side",
+                  "description": "Parallel: beside it, Spacing apart (a joist or stud run). 90 degrees: against its side, like a rail on a post."
+                },
+                {
+                  "const": "other-side",
+                  "title": "Other side",
+                  "description": "The same, on the opposite side."
+                },
+                {
+                  "const": "top",
+                  "title": "On top",
+                  "description": "Parallel: stacked on it. 90 degrees: crossing over it, like joists on a bearer."
+                },
+                {
+                  "const": "below",
+                  "title": "Underneath",
+                  "description": "Parallel: under it. 90 degrees: crossing under it."
+                },
+                {
+                  "const": "end",
+                  "title": "Far end",
+                  "description": "Parallel: in line, butted on its end. 90 degrees: across its end, like a rim joist."
+                },
+                {
+                  "const": "start",
+                  "title": "Near end",
+                  "description": "The same at its other end."
+                }
+              ]
+            },
+            "along": {
+              "type": "string",
+              "title": "Along it from",
+              "description": "90 degrees on top, underneath or on a side: where the first one goes along the selected timber.",
+              "default": "start",
+              "oneOf": [
+                {
+                  "const": "start",
+                  "title": "Start",
+                  "description": "Flush with its start (lowest X, Y or Z)."
+                },
+                {
+                  "const": "middle",
+                  "title": "Middle",
+                  "description": "Centred; several are spread evenly about the middle."
+                },
+                {
+                  "const": "end",
+                  "title": "End",
+                  "description": "Flush with its end, the next ones working back."
+                }
+              ]
+            },
+            "count": {
+              "type": "integer",
+              "title": "How many",
+              "description": "Several make a run, Spacing apart.",
+              "default": 1,
+              "minimum": 1,
+              "maximum": 100
+            },
+            "spacing": {
+              "type": "string",
+              "title": "Spacing",
+              "description": "Centre to centre, such as 400 mm, 600 mm or 16\". 0: touching.",
+              "default": "0",
+              "maxLength": 40
+            },
+            "direction": {
+              "type": "string",
+              "title": "Direction",
+              "description": "Which way the length runs. Auto: X at the origin, square to the selected timber at 90 degrees. Parallel always follows the selected timber.",
+              "default": "auto",
+              "oneOf": [
+                {
+                  "const": "auto",
+                  "title": "Auto"
+                },
+                {
+                  "const": "x",
+                  "title": "X"
+                },
+                {
+                  "const": "y",
+                  "title": "Y"
+                },
+                {
+                  "const": "z",
+                  "title": "Z (upright)"
+                }
+              ]
+            },
+            "lie": {
+              "type": "string",
+              "title": "Lie",
+              "description": "Which face is down.",
+              "default": "auto",
+              "oneOf": [
+                {
+                  "const": "auto",
+                  "title": "Auto",
+                  "description": "As the selected timber when parallel, else on edge."
+                },
+                {
+                  "const": "edge",
+                  "title": "On edge",
+                  "description": "Wide face vertical, like a joist. Upright: wide face along Y."
+                },
+                {
+                  "const": "flat",
+                  "title": "Flat",
+                  "description": "Wide face down, like a batten. Upright: wide face along X."
+                }
+              ]
+            },
+            "custom_thickness": {
+              "type": "string",
+              "title": "Custom thickness",
+              "description": "Only for Size Custom. mm, or inches with Inches ticked; or with a unit, such as 1 1/2\".",
+              "default": "47 mm",
+              "maxLength": 40
+            },
+            "custom_width": {
+              "type": "string",
+              "title": "Custom width",
+              "description": "Only for Size Custom. mm, or inches with Inches ticked; or with a unit, such as 3 1/2\".",
+              "default": "100 mm",
+              "maxLength": 40
+            },
+            "material": {
+              "type": "string",
+              "title": "Material",
+              "default": "Softwood",
+              "oneOf": [
+                {
+                  "const": "Softwood",
+                  "title": "Softwood"
+                },
+                {
+                  "const": "Treated softwood",
+                  "title": "Treated softwood"
+                },
+                {
+                  "const": "Oak",
+                  "title": "Oak"
+                },
+                {
+                  "const": "none",
+                  "title": "None"
+                }
+              ]
+            },
+            "name": {
+              "type": "string",
+              "title": "Name",
+              "description": "Empty: the size, such as 4x2. A name that is taken gets the next free number; several are numbered #1, #2.",
+              "default": "",
+              "maxLength": 40
+            }
+          }
+        }
+      }
+    ],
+    "commands": [
+      "document.inspect",
+      "inspect.measure",
+      "parameters.add",
+      "solid.box",
+      "material.list",
+      "material.create",
+      "material.assign",
+      "timeline.group"
+    ],
+    "limits": {
+      "fuel": 500000000,
+      "memory_mib": 64,
+      "deadline_ms": 30000
+    }
+  }
+}
