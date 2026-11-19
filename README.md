@@ -5,9 +5,9 @@ Standard timber sections at any length, as solid bodies: on the origin, or place
 
 ## Download
 
-**[⬇ timber-0.1.1.zip](https://github.com/TheCraftyAlien/SolidCraft-Plugins/raw/main/assets/timber-0.1.1.zip)**: the plugin, ready to install (SolidCraft 0.43 or later).
+**[⬇ timber-0.1.1.zip](https://github.com/TheCraftyAlien/SolidCraft-Timber-Plugin/raw/main/assets/timber-0.1.1.zip)**: the plugin, ready to install (SolidCraft 0.43 or later).
 
-All versions are in the [`assets`](https://github.com/TheCraftyAlien/SolidCraft-Plugins/tree/main/assets) folder.
+All versions are in the [`assets`](https://github.com/TheCraftyAlien/SolidCraft-Timber-Plugin/tree/main/assets) folder.
 
 ## Install
 
