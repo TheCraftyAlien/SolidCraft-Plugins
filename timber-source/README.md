@@ -3,10 +3,19 @@
 Standard timber sections at any length, as solid bodies: on the origin, or placed parallel or at
 90 degrees to a timber you have selected. Works with SolidCraft 0.43.
 
+## Download
+
+**[⬇ timber-0.1.1.zip](https://github.com/TheCraftyAlien/SolidCraft-Plugins/raw/main/timber-source/assets/timber-0.1.1.zip)**: the plugin, ready to install (SolidCraft 0.43 or later).
+
+All versions are in the [`timber-source/assets`](https://github.com/TheCraftyAlien/SolidCraft-Plugins/tree/main/timber-source/assets) folder.
+
 ## Install
 
-In SolidCraft open **Preferences › Plugins**, choose **Install plugin…** and pick
-`timber-0.1.1.zip`. It asks for no folders or extra permissions.
+1. Download `timber-0.1.1.zip` from the link above. Keep it zipped.
+2. In SolidCraft open **Preferences › Plugins** and choose **Install plugin…**.
+3. Pick the zip. If an earlier Timber is installed, tick **Replace**.
+
+It asks for no folders or extra permissions.
 
 ## Use
 
@@ -59,7 +68,7 @@ one history folder.
 
 ## Build
 
-    python build.py            # unit tests, wasm build, dist/timber-<version>.zip, end-to-end tests
+    python build.py            # unit tests, wasm build, assets/timber-<version>.zip, end-to-end tests
     python build.py --no-e2e   # without solidcraft-cli
 
 Needs Rust with `wasm32-unknown-unknown`, `wasm-tools`, and `solidcraft-cli` for the end-to-end tests.
