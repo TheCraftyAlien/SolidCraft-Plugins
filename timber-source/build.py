@@ -1,6 +1,6 @@
 """Build, package and end-to-end test the Timber plugin.
 
-    python build.py            unit tests, wasm build, dist/timber/ and dist/timber-<version>.zip, then the end-to-end tests
+    python build.py            unit tests, wasm build, dist/timber/, dist/timber-<version>.zip and assets/timber-<version>.zip, then the end-to-end tests
     python build.py --no-e2e   the same without the end-to-end tests (no solidcraft-cli needed)
 
 Needs: cargo with the wasm32-unknown-unknown target, wasm-tools, and for the end-to-end tests
@@ -39,7 +39,10 @@ def build():
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as z:
         for name in ("plugin.json", "timber.wasm"):
             z.write(PKG / name, f"timber/{name}")
-    print("built", archive)
+    # The README's download link points at assets/.
+    (ROOT / "assets").mkdir(exist_ok=True)
+    shutil.copy2(archive, ROOT / "assets" / archive.name)
+    print("built", archive, "and assets/" + archive.name)
     return archive
 
 
